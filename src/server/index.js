@@ -1,0 +1,42 @@
+const dotenv = require('dotenv')
+dotenv.config()
+var path = require('path')
+const express = require('express')
+const mockAPIResponse = require('./mockAPI.js')
+var bodyParser = require('body-parser')
+var cors = require('cors')
+var aylien = require("aylien_textapi")
+var textapi = new aylien({
+  application_id: process.env.API_ID,
+   application_key: process.env.API_KEY
+});
+
+const app = express()
+app.use(cors())
+// to use json
+app.use(bodyParser.json())
+// to use url encoded values
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+app.use(express.static('dist'))
+
+// designates what port the app will listen to for incoming requests
+app.listen(8000, function () {
+    console.log('Example app listening on port 8000!')
+})
+
+app.get('/', function (req, res) {
+    res.sendFile('dist/index.html')
+})
+
+app.post('/url', function (req, res){
+  textapi.sentiment({
+    url: req.body.text
+  }, function(error, response) {
+    if (error) {
+      return;
+    }
+    res.send(response)
+  });
+})

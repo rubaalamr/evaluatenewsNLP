@@ -2,7 +2,6 @@ const dotenv = require('dotenv')
 dotenv.config()
 var path = require('path')
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
 var bodyParser = require('body-parser')
 var cors = require('cors')
 var aylien = require("aylien_textapi")
@@ -22,8 +21,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('dist'))
 
 // designates what port the app will listen to for incoming requests
-app.listen(8000, function () {
-    console.log('Example app listening on port 8000!')
+app.listen(2020, function () {
+    console.log('Example app listening on port 2020!')
 })
 
 app.get('/', function (req, res) {
